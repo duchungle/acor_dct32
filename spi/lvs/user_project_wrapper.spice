@@ -1,0 +1,13 @@
+* NGSPICE file created from user_project_wrapper.ext - technology: sky130A
+
+* Black-box entry subcircuit for user_proj_example abstract view
+.subckt user_proj_example iClk iRst_n iSDAT iSVAL iSize[0] iSize[1] iSize[2] iValid
++ oSDAT oSVAL vccd1 vssd1
+.ends
+
+.subckt user_project_wrapper iClk iRst_n iSDAT iSVAL iSize[0] iSize[1] iSize[2] iValid
++ oSDAT oSVAL vccd1 vccd2 vdda1 vdda2 vssa1 vssa2 vssd1 vssd2
+Xmprj iClk iRst_n iSDAT iSVAL iSize[0] iSize[1] iSize[2] iValid oSDAT oSVAL vccd1
++ vssd1 user_proj_example
+.ends
+
