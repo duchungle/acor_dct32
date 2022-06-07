@@ -38,8 +38,8 @@ set ::env(VERILOG_FILES) "\
 	$script_dir/../../verilog/rtl/user_project_wrapper.v"
 
 ## Clock configurations
-set ::env(CLOCK_PORT) "iClk"
-set ::env(CLOCK_NET) "mprj.iClk"
+set ::env(CLOCK_PORT) "user_clock2"
+set ::env(CLOCK_NET) "mprj.clk"
 
 set ::env(CLOCK_PERIOD) "50"
 

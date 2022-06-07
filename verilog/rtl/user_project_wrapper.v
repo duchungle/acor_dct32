@@ -29,7 +29,9 @@
  *-------------------------------------------------------------
  */
 
-module user_project_wrapper (
+module user_project_wrapper #(
+parameter BITS = 32
+) (
 `ifdef USE_POWER_PINS
     inout vdda1,	// User area 1 3.3V supply
     inout vdda2,	// User area 2 3.3V supply
@@ -41,16 +43,41 @@ module user_project_wrapper (
     inout vssd2,	// User area 2 digital ground
 `endif
 
-    input	iClk,
-    input	iRst_n,
-    input	iValid,
-    input [2:0] iSize,	
-    input	iSVAL,
-    input	iSDAT,
-    output	oSVAL,
-    output	oSDAT
+    // Wishbone Slave ports (WB MI A)
+    input wb_clk_i,
+    input wb_rst_i,
+    input wbs_stb_i,
+    input wbs_cyc_i,
+    input wbs_we_i,
+    input [3:0] wbs_sel_i,
+    input [31:0] wbs_dat_i,
+    input [31:0] wbs_adr_i,
+    output wbs_ack_o,
+    output [31:0] wbs_dat_o,
 
+    // Logic Analyzer Signals
+    input  [127:0] la_data_in,
+    output [127:0] la_data_out,
+    input  [127:0] la_oenb,
+
+    // IOs
+    input  [`MPRJ_IO_PADS-1:0] io_in,
+    output [`MPRJ_IO_PADS-1:0] io_out,
+    output [`MPRJ_IO_PADS-1:0] io_oeb,
+
+    // Analog (direct connection to GPIO pad---use with caution)
+    // Note that analog I/O is not available on the 7 lowest-numbered
+    // GPIO pads, and so the analog_io indexing is offset from the
+    // GPIO indexing by 7 (also upper 2 GPIOs do not have analog_io).
+    inout [`MPRJ_IO_PADS-10:0] analog_io,
+
+    // Independent clock (on independent integer divider)
+    input   user_clock2,
+
+    // User maskable interrupt signals
+    output [2:0] user_irq
 );
+
 
 /*--------------------------------------*/
 /* User project is instantiated  here   */
@@ -62,14 +89,14 @@ user_proj_example mprj(
 	.vssd1(vssd1),	// User area 1 digital ground
 `endif
 
-	.iClk(iClk),
-	.iRst_n(iRst_n),
-	.iValid(iValid),
-	.iSize(iSize),
-	.iSVAL(iSVAL),
-	.iSDAT(iSDAT),
-	.oSVAL(oSVAL),
-	.oSDAT(oSDAT)
+	.iClk(wb_clk_i),
+	.iRst_n(wb_rst_i),
+	.iValid(wbs_we_i),
+	.iSize(wbs_sel_i[2:0]),
+	.iSVAL(la_data_in[0]),
+	.iSDAT(la_data_in[1]),
+	.oSVAL(la_data_out[0]),
+	.oSDAT(la_data_out[1])
 );
 
 
