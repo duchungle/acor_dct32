@@ -8,8 +8,16 @@ The flexible 32-point DCT architecture was developed based on the Adaptic CORDIC
 ### 32-point DCT architecture
 [![Architecture](/img/dct32.png)](/img/dct32.png)
 
-### Implementaion results on Stratix IV FPGA
-[![Implemetaion results](/img/table-results.png)](/img/table-results.png)
+### Implementation results on Stratix IV FPGA
+
+|     Point     |     Design    |   ALUTs    |  Fmax (MHz)  |
+| ------------- | ------------- | ---------- | ------------ |    
+|       8       |   2S-8p-DCT   |    431     |    216.88    | 
+|       8       |   3S-8p-DCT   |    575     |    181.13    |
+|      16       |  2S-16p-DCT   |   1,615    |    153.87    |
+|      16       |  3S-16p-DCT   |   2,404    |    134.72    |
+|      32       |  2S-32p-DCT   |   6,503    |    116.13    |
+|      32       |  3S-32p-DCT   |   9,911    |    109.85    |
 
 ### The demo of compression and compression of Video RGB on FPGA
 [![Demo](/img/demo.png)](/img/demo.png)
